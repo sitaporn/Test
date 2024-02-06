@@ -1,0 +1,160 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MainPhone.cshtml";
+    ViewBag.Title = "MS1_10";
+}
+
+<style>
+
+
+  
+
+    .to {
+        max-width: 126px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <h3 class="title-5 m-b-5"><i class="fas fa-address-book"></i> Phone Book</h3>
+            </div>
+            <div class="table-data__tool-right">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="divDept" ></div>
+<div id="cl"  style="display:none">
+    <div class="au-card m-b-30">
+        <div class="col-lg-12">
+            <div class="table-data__tool">
+                <div class="table-data__tool-left">
+                    <h3 class="title-5 m-b-5"><i class="fas fa-address-book"></i> Dept. <small style="font-size: 22px; font-weight: 500; color: #393939; text-transform:capitalize" id="txtd"></small></h3>
+                </div>
+                <div class="table-data__tool-right">
+                    <button type="button" class="btn btn-secondary" onclick="btnEx()"><i class="fas fa-arrow-circle-left"></i> ย้อนกลับ</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-bordered" id="tb">
+                <thead>
+                    <tr>
+                        <th width="35%">User</th>
+                        <th width="35%">Position</th>
+                        <th width="10%" class="text-center">Tel</th>
+                        <th width="20%">Note</th>
+                    </tr>
+                    <tr class="spacer"></tr>
+                </thead>
+                <tbody id="tb_ii">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<script>
+    fd();
+    function fd() {
+        $.ajax({
+            url: "@Url.Action("GetMethod", "Home")",
+            type: "GET",
+            success: function (data) {
+                $('#divDept').empty();
+                var a = "";
+                for (var i = 0; i < data.length; i++) {
+                    a = a + '<div class="col-lg-2">';
+                    a = a + '<div class="au-card m-b-20">';
+                    a = a + '<a href="javascript:void(0)" class="aaf" data-id="' + (i + 1) + '" data-name="' + data[i].Section + '">';
+                    a = a + '<div class="au-card-inner">';
+                    a = a + '<div class="col-md-12">';
+                    a = a + '<i class="fas fa-address-book fa-3x"></i>';
+                    a = a + '</div>';
+                    a = a + '<div class="col-md-12 to" style="font-size:20px;font-weight:bold;" data-toggle="tooltip" title="' + data[i].Section +'">' + data[i].Section +' </div>';
+                    a = a + ' </div>';
+                    a = a + ' </a>';
+                    a = a + ' </div>';
+                    a = a + ' </div>';
+                }
+                $('#divDept').append(a);
+
+                $('.aaf').on("click", function () {
+                    $('#divDept').hide();
+                    $('#cl').show();
+                var section = $(this).data("name");
+                $.ajax({
+                    url: "@Url.Action("PostSec", "Home")",
+                    type: "POST",
+                    data: { section: section },
+                    success: function (data) {
+                        $('#txtd').text(section);
+                        var a = "";
+                        $('#tb_ii').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            a = a + '<tr>';
+                            a = a + '<td>' + data[i].Name + '</td>';
+                            a = a + '<td>' + data[i].Position + '</td>';
+                            a = a + '<td class="text-center">' + data[i].Tel + '</td>';
+                            a = a + '<td>' + data[i].Note + '</td>';
+                            a = a + '</tr>';
+                        }
+                        $('#tb_ii').append(a);
+
+                    },
+                    error: function (response) {
+                        alert("error!");
+                    }
+                    });
+
+                });
+            },
+            error: function (response) {
+                alert("error!");
+            }
+        });
+    }
+
+
+    function btnEx() {
+        $('#divDept').show();
+        $('#cl').hide();
+        $('#tb_ii').empty();
+    }
+
+    function btnt() {
+        var txt = $('#txt').text();
+        var btn = $('#btn').val();
+        if (txt != 0) {
+            tx = "show";
+        } else {
+            tx = "hide";
+        }
+
+        $('#txtbtn').val(tx);
+
+
+        window.history.back();
+
+    }
+
+
+    GetTest();
+
+    function GetTest() {
+        $.ajax({
+            url: "@Url.Action("GetTest", "Home")",
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+</script>

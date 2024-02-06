@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BookPhoneModelStoreContainer" CdmEntityContainer="BookPhoneEntities">
+    <EntitySetMapping Name="Phones">
+      <EntityTypeMapping TypeName="BookPhoneModel.Phone">
+        <MappingFragment StoreEntitySet="Phone">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SECTION" ColumnName="SECTION" />
+          <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+          <ScalarProperty Name="POSITION" ColumnName="POSITION" />
+          <ScalarProperty Name="TEL" ColumnName="TEL" />
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+          <ScalarProperty Name="CREATEBY" ColumnName="CREATEBY" />
+          <ScalarProperty Name="CREATEDTM" ColumnName="CREATEDTM" />
+          <ScalarProperty Name="LASTCHANGEBY" ColumnName="LASTCHANGEBY" />
+          <ScalarProperty Name="LASTCHANGEDTM" ColumnName="LASTCHANGEDTM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

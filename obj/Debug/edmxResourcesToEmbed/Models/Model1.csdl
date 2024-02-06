@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookPhoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Phone">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SECTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="USERNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="POSITION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TEL" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="NOTE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CREATEBY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CREATEDTM" Type="DateTime" Precision="3" />
+    <Property Name="LASTCHANGEBY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LASTCHANGEDTM" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="BookPhoneEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Phones" EntityType="Self.Phone" />
+  </EntityContainer>
+</Schema>

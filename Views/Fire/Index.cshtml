@@ -1,0 +1,309 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MainFire.cshtml";
+    ViewBag.Title = "Index";
+}
+
+
+<script src="~/Scripts/vendor/jquery-3.2.1.min.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <h3 class="title-5 m-b-5"><i class="fas fa-list"></i> Check Sheet</h3>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#ex4">
+                    <i class="zmdi zmdi-plus"></i>add list
+                </button>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#ex">
+                    <i class="zmdi zmdi-plus"></i>add
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-bordered" id="example">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">ลำดับ</th>
+                        <th>ชนิด</th>
+                        <th>ขนาด</th>
+                        <th>สถานที่ติดตั้ง</th>
+                        <th style="text-align:center">วันที่ติดตั้ง/ส่งของ</th>
+                        <th style="text-align:center">วันสิ้นสุดการรับประกัน</th>
+                        <th style="text-align:center">#</th>
+                    </tr>
+                </thead>
+                <tbody id="ee"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ex4" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="form-control" id="aId" name="aId" />
+                <table class="table table-borderless tbb">
+                    <thead>
+                        <tr>
+                            <th>ชนิด</th>
+                            <th>
+                                <select class="form-control" id="aType">
+                                    <option value="0">--select--</option>
+                                    <option value="1">Powder</option>
+                                    <option value="2">CO2</option>
+                                    <option value="3">Foam</option>
+                                    <option value="4">Water</option>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>ขนาด</th>
+                            <th>
+                                <select class="form-control" id="aSize">
+                                    <option value="0">--select--</option>
+                                    <option value="2">2</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>สถานที่</th>
+                            <th>
+                                <select class="form-control" id="aPlace">
+                                    <option value="0">--select--</option>
+                                    <option value="1">MIS</option>
+                                    <option value="2">CQE</option>
+                                    <option value="3">QA</option>
+                                    <option value="4">ACC</option>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>วันที่ติดตั้ง/ส่งของ</th>
+                            <th><input type="date" class="form-control" id="aStartDtm" name="aStartDtm" /></th>
+                        </tr>
+                        <tr>
+                            <th>วันสิ้นสุดการรับประกัน</th>
+                            <th><input type="date" class="form-control" id="aEndDtm" name="aEndDtm" /></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="btnSave()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ex" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " style="width:1100px">
+            @*<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>*@
+            <div class="modal-body">
+                <table class="table table-bordered" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th colspan="12" style="vertical-align:middle">
+                                บันทึกการตรวจ
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="12">
+                                <p>รายละเอียดถังดับเพลิง</p>
+                                <small>รหัส : </small><small class="text-danger font-weight-bold">123456</small>&emsp;
+                                <small>ชนิด : </small><small class="text-danger font-weight-bold" id="ft">Harotron</small>&emsp;
+                                <small>ขนาด : </small><small class="text-danger font-weight-bold" id="fs">15</small><small class="text-danger font-weight-bold"> ปอนต์</small>
+                                &emsp;
+                                <small>สถานที่ตอดตั้ง : </small><small class="text-danger font-weight-bold" id="fp">MIS</small>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th rowspan="3" style="vertical-align:middle">วันที่ตรวจ</th>
+                            <th colspan="10">สภาพการตรวจสอบ</th>
+                            <th rowspan="3" style="vertical-align:middle">ผู้ตรวจสอบ</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="vertical-align:middle">สายฉีด</th>
+                            <th colspan="2" style="vertical-align:middle">คันบังคับ</th>
+                            <th colspan="2" style="vertical-align:middle">ตัวถัง</th>
+                            <th colspan="2" style="vertical-align:middle">เกจแรงดัน<br>/น้ำหนัก</th>
+                            <th colspan="2" style="vertical-align:middle">สิ่งกีดขวาง</th>
+                        </tr>
+                        <tr>
+                            <th>ปกติ</th>
+                            <th>ชำรุด</th>
+                            <th>ปกติ</th>
+                            <th>ชำรุด</th>
+                            <th>ปกติ</th>
+                            <th>ชำรุด</th>
+                            <th>ปกติ</th>
+                            <th>ชำรุด</th>
+                            <th>ปกติ</th>
+                            <th>ชำรุด</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="date" class="form-control" id="aSec" name="aSec" maxlength="100" />
+                            </th>
+                            <th><label class="au-checkbox"><input type="checkbox" id="o11" name="o1"  value="1"/><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label> </th>
+                            <th><label class="au1-checkbox"><input type="checkbox" id="o12" name="o1" value="0" /><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au-checkbox"><input type="checkbox" name="o2" value="1" /><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au1-checkbox"><input type="checkbox" name="o2" value="0"/><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au-checkbox"><input type="checkbox" name="o3" value="1" /><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au1-checkbox"><input type="checkbox" name="o3" value="0"/><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au-checkbox"><input type="checkbox" name="o4" value="1"/><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au1-checkbox"><input type="checkbox" name="o4" value="0"/><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au-checkbox"><input type="checkbox" name="o5" value="1" /><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th><label class="au1-checkbox"><input type="checkbox" name="o5" value="0" /><span class="au-checkmark" style="margin-top:-21px;margin-left:8px;"></span></label></th>
+                            <th> sitaporn.k</th>
+                        </tr>
+                        <tr>
+                            <th colspan="6" rowspan="3" style="vertical-align:middle">
+                                <p><u>ภาพถังปกติ</u></p>
+                                <img src="~/Scripts/f/f.PNG" />
+                                <p>หมายเหตุ : ถังดับเพลิงชนิดคาร์บอนไม่มีเกจแรงดัน</p>
+                            </th>
+                            <th colspan="6" class="text-left">
+                                <p>รายละเอียดการชำรุด</p>
+                                <textarea id="w3review" name="w3review" rows="4" cols="50" class="form-control"></textarea>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="6">
+                                <p>สาเหตุการชำรุด</p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" checked> ใช้งาน &nbsp;
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> หมดอายุ &nbsp;
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> อื่นๆ &nbsp;
+                                </label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="text-left">
+                                <p>ผู้รายงาน&nbsp;:&nbsp;<small>Sitaporn.k</small></p>
+                                <hr />
+                                <p>ตำแหน่ง&nbsp;:&nbsp;<small>Sup</small></p>
+                                <hr />
+                                <p>วันที่&nbsp;&emsp;&emsp;:&nbsp;<small>2023-09-12</small></p>
+                            </th>
+                            @*<th colspan="4"><input type="text" class="form-control" /></th>*@
+                        </tr>
+                        @*<tr>
+                                <th colspan="2">
+                                    ผู้รายงาน
+                                </th>
+                                <th colspan="4"><input type="text" class="form-control" /></th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">
+                                    ผู้รายงาน
+                                </th>
+                                <th colspan="4"><input type="text" class="form-control" /></th>
+                            </tr>*@
+                        <tr>
+                            <th colspan="12" class="text-left">
+                                <p>ข้อปฎิบัติ</p>
+                                <p>- ตรวจสอบสภาพถังดับเพลิง<u class="font-weight-bold">ทุกเดือน</u> และลงชื่อกำกับด้วยตัวบรรจง</p>
+                                <p>- หากพบสิ่งผิดปกติให้ดำเนินการแก้ไขทันที หากไม่สามารถแก้ไขได้ ให้บันทึกความผิดปกตินั้น และส่งเอกสารนี้ให้จปใทันที</p>
+                            </th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="btnSave()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<script type="text/javascript">
+    //$("input[name='o1").onlcik(function () {
+    // //   var ooo = $("#o11").prop("checked", true);
+    //    // var  ooo = $("#o22").prop("checked", true);
+    //    console.log($('#o11').is(':checked'));
+    //    console.log($('#o12').is(':checked'));
+    //});
+
+
+    GetListDetail();
+    function GetListDetail() {
+        $.ajax({
+            url: "@Url.Action("GetTest", "Fire")",
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+
+                $('#ee').empty();
+                var a = "";
+                for (var i = 0; i < data.length; i++) {
+                    a = a + '<tr>';
+                    a = a + '<td>' + data[i].Id + '</td>';
+                    a = a + '<td>' + data[i].Ftypes + '</td>';
+                    a = a + '<td>' + data[i].Fsizes + '</td>';
+                    a = a + '<td>' + data[i].Fplaces + '</td>';
+                    a = a + '<td>' + data[i].StartD + '</td>';
+                    a = a + '<td>' + data[i].EndD + '</td>';
+                    a = a + '<td>';
+                    a = a + '<div class="table-data-feature">';
+                    a = a + '<button class="item" data-placement="top" data-toggle="modal" title="Edit" data-target="#ex" data-id="' + data[i].Id + '" data-ft="' + data[i].Ftypes + '" data-fs="' + data[i].Fsizes + '" data-fp="' + data[i].Fplaces + '" >';
+                    a = a + '<i class="zmdi zmdi-edit"></i>';
+                    a = a + '</div>';
+                    a = a + '</td>';
+                    a = a + '</tr>';
+                }
+                $('#ee').append(a);
+            }
+
+        });
+    }
+    $('#ex').on('show.bs.modal', function (event) {
+        //get data-id attribute of the clicked element
+        var atag = $(event.relatedTarget);
+        var id = atag.data('id');
+        var ft = atag.data('ft');
+        var fs = atag.data('fs');
+        var fp = atag.data('fp');
+        console.log(id);
+        if (typeof id == "undefined") {
+            //add
+            $('#exampleModalLabel').text("Add ");
+            $('#ft').text("");
+            $('#fs').text("");
+            $('#fp').text("");
+
+        } else {
+            //edit
+            $('#exampleModalLabel').text("Edit ");
+            $('#ft').text(ft);
+            $('#fs').text(fs);
+            $('#fp').text(fp);
+ 
+        }
+    });
+</script>

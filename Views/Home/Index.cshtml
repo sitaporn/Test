@@ -1,0 +1,447 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MainPhone.cshtml";
+    ViewBag.Title = "Index";
+
+}
+<link href="~/Scripts/css/alert.css" rel="stylesheet" />
+<link href="~/Scripts/datatable/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/vendor/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/datatable/jquery.dataTables.js"></script>
+<style>
+    table.dataTable thead {
+        background-color: #007bff;
+        color:#000;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <h3 class="title-5 m-b-5"><i class="fas fa-list"></i> Phone List</h3>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#ex1">
+                    <i class="zmdi zmdi-plus"></i>add Telephone
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            @*<table id="example" class="table table-bordered" width="100%"></table>*@
+            <table class="table table-bordered" id="example">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Theater</th>
+                        <th style="text-align:center">Section</th>
+                        <th style="text-align:center">User</th>
+                        <th style="text-align:center">Position</th>
+                        <th style="text-align:center">Tel</th>
+                        <th style="text-align:center">Note</th>
+                        <th style="text-align:center">#</th>
+                    </tr>
+                    @*<tr class="spacer"></tr>*@
+                </thead>
+                @*<tbody id="tb_"></tbody>*@
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ex1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="form-control" id="aId" name="aId" />
+                <table class="table table-borderless tbb">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th><input type="text" class="form-control" id="aSec" name="aSec" maxlength="100" /></th>
+                        </tr>
+                        <tr>
+                            <th>User</th>
+                            <th><input type="text" class="form-control" id="aUser" name="aUser" maxlength="200" /></th>
+                        </tr>
+                        <tr>
+                            <th>Position</th>
+                            <th><input type="text" class="form-control" id="aPos" name="aPos" maxlength="200" /></th>
+                        </tr>
+                        <tr>
+                            <th>Tel</th>
+                            <th><input type="text" class="form-control" id="aTel" name="aTel" maxlength="20" /></th>
+                        </tr>
+                        <tr>
+                            <th>Note</th>
+                            <th><input type="text" class="form-control" id="aNote" name="aNote" maxlength="100" /></th>
+                        </tr>
+                        <tr>
+                            <th>Theater</th>
+                            <th>
+                                <select class="form-control" id="aTheater">
+                                    <option value="0">--select--</option>
+                                    <option value="1">โรง 1 ชั้น 1</option>
+                                    <option value="2">โรง 1 ชั้น 2</option>
+                                    <option value="3">โรง 2 ชั้น 1</option>
+                                    <option value="4">อื่นๆ</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="btnSave()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ed1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Delete Phone</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>ต้องการลบหรือไม่?</h4>
+                <input type="hidden" class="form-control" id="id_" name="id_" />
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="btnDe()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="error">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Delete Phone</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>ต้องการลบหรือไม่?</h4>
+                <input type="hidden" class="form-control" id="id_" name="id_" />
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="btnDe()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mySuccess" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons fa fa-check"></i>
+                </div>
+                <h4 class="modal-title w-100">Success!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">บันทึกสำเร็จ!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myError" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-boxs">
+                    <i class="material-icons fa fa-times"></i>
+                </div>
+                <h4 class="modal-title w-100">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="txte"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myWarning" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-boxss">
+                    <i class="material-icons fa fa-exclamation"></i>
+                </div>
+                <h4 class="modal-title w-100">Warning!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="~/Scripts/css/sweetalert2.js"></script>*@
+
+
+<script src="~/Scripts/css/Alert.js"></script>
+<script src="~/Scripts/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    var table = $('#example').DataTable({
+        "Processing": true,
+        "ajax": {
+            "url": "@Url.Action("GetMethods", "Home")",
+            "dataSrc": ""
+        },
+        "columns": [
+            {
+                "data": "Theater",
+                "render": function (data) {
+                    var txt;
+                    switch (data) {
+                        case 1:
+                            txt = "โรง 1 ชั้น 1";
+                            break;
+                        case 2:
+                            txt = "โรง 1 ชั้น 2";
+                            break;
+                        case 3:
+                            txt = "โรง 2 ชั้น 1";
+                            break;
+                        case 4:
+                            txt = "อื่นๆ";
+                            break;
+                    }
+                    return txt
+            }
+            },
+            { "data": "Section" },
+            { "data": "Name" },
+            { "data": "Position" },
+            { "data": "Tel" },
+            { "data": "Note", class:"text-danger"},
+            {
+                "data": "Id",
+                "render": function (data, type, row) {
+                    return  '<div class="table-data-feature">'+
+                        '<button class="item" data-placement="top" data-toggle="modal" title="Edit" data-target="#ex1" data-id="' + data + '" data-sec="' + row.Section + '" data-name="' + row.Name + '" data-po="' + row.Position + '" data-tel="' + row.Tel + '" data-note="' + row.Note + '" data-tt="' + row.Theater +'">'+
+                   '<i class="zmdi zmdi-edit"></i>'+
+                     '</button>'+
+                    '<button class="item" data-placement="top" data-toggle="modal" title="Delete" data-target="#ed1" data-id="' + data + '" >'+
+                     '<i class="zmdi zmdi-delete"></i>'+
+                    '</button>'+
+                    '</div>'
+                },
+            }
+        ]
+
+    });
+
+   // listps();
+    function listps() {
+        $.ajax({
+            url: "@Url.Action("GetMethods", "Home")",
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+                $('#tb_').empty();
+                var a = "";
+                for (var i = 0; i < data.length; i++) {
+                    a = a + '<tr class="tr-shadow" id="row' + (i + 1) + '">';
+                    a = a + '<td>' + (i + 1) + '</td>';
+                    a = a + '<td class="text-left">' + data[i].Section + '</td>';
+                    a = a + '<td class="text-left">' + data[i].Name + '</td>';
+                    a = a + '<td class="text-left">' + data[i].Position + '</td>';
+                    a = a + '<td>' + data[i].Tel + '</td>';
+                    a = a + '<td>' + data[i].Note + '</td>';
+                    a = a + '<td>';
+                    a = a + '<div class="table-data-feature">';
+                    a = a + '<button class="item" data-placement="top" data-toggle="modal" title="Edit" data-target="#ex1" data-id="' + data[i].Id + '" data-sec="' + data[i].Section + '" data-name="' + data[i].Name + '" data-po="' + data[i].Position + '" data-tel="' + data[i].Tel + '" data-note="' + data[i].Note + '" data-tt="' + data[i].Theater +'">';
+                    a = a + '<i class="zmdi zmdi-edit"></i>';
+                    a = a + '</button>';
+                    a = a + '<button class="item" data-placement="top" data-toggle="modal" title="Delete" data-target="#ed1" data-id="' + data[i].Id + '" >';
+                    a = a + '<i class="zmdi zmdi-delete"></i>';
+                    a = a + '</button>';
+                    a = a + '</div>';
+                    a = a + '</td>';
+                    a = a + '</tr>';
+                    a = a + '<tr class="spacer"></tr>';
+                }
+                $('#tb_').append(a);
+            //    sucsessAlert("error","Successfully")
+            }, error: function (response) {
+                switch (response.status) {
+                    case 404:
+                        $('#txte').text("กรุณาติดต่อ MIS");
+                        $('#myError').modal();
+                        break;
+                    default:
+                        $('#txte').text("กรุณาติดต่อ MIS");
+                        $('#myError').modal();
+                        break;
+                }
+            }
+        });
+    }
+    $('#ex1').on('show.bs.modal', function (event) {
+        //get data-id attribute of the clicked element
+        var atag    = $(event.relatedTarget);
+        var id      = atag.data('id');
+        var sec     = atag.data('sec');
+        var name    = atag.data('name');
+        var po      = atag.data('po');
+        var tel     = atag.data('tel');
+        var note = atag.data('note');
+        var tt = atag.data('tt');
+        if (typeof id == "undefined") {
+            //add
+            $('#exampleModalLabel').text("Add Phone");
+            $('#aId').val(0);
+            $('#aSec').val("");
+            $('#aUser').val("");
+            $('#aPos').val("");
+            $('#aTel').val("");
+            $('#aNote').val("");
+            $('#aTheater option[value="0"]').prop("selected", true);
+        } else {
+            //edit
+            $('#exampleModalLabel').text("Edit Phone");
+            $('#aId').val(id);
+            $('#aSec').val(sec);
+            $('#aUser').val(name);
+            $('#aPos').val(po);
+            $('#aTel').val(tel);
+            $('#aNote').val(note);
+            $('#aTheater option[value="' + tt + '"]').prop("selected", true);
+            $('#aSec').attr('data-val',sec);
+            $('#aUser').attr('data-val', name);
+            $('#aPos').attr('data-val', po);
+            $('#aTel').attr('data-val', tel);
+            $('#aNote').attr('data-val', note);
+            $('#aTheater').attr('data-val', tt);
+        }
+    });
+
+    function btnSave() {
+        var aId = $('#aId').val();
+        var aSec = $('#aSec').val();
+        var aUser = $('#aUser').val();
+        var aPos = $('#aPos').val();
+        var aTel = $('#aTel').val();
+        var aNote = $('#aNote').val();
+        var aTheater = $('#aTheater').val();
+        var data;
+        if (aId != "0") {
+            var eSec = $('#aSec').attr('data-val');
+            var eUser = $('#aUser').attr('data-val');
+            var ePos = $('#aPos').attr('data-val');
+            var eTel = $('#aTel').attr('data-val');
+            var eNote = $('#aNote').attr('data-val');
+            var eTheater = $('#aTheater').attr('data-val');
+
+            data = {
+                Id: aId,
+                Section: aSec,
+                Name: aUser,
+                Position: aPos,
+                Tel: aTel,
+                Note: aNote,
+                Theater: aTheater,
+                Sectione: eSec,
+                Namee: eUser,
+                Positione: ePos,
+                Tele: eTel,
+                Notee: eNote,
+                Theatere: eTheater,
+            };
+        } else {
+            data = {
+                Section: aSec,
+                Name: aUser,
+                Position: aPos,
+                Tel: aTel,
+                Note: aNote,
+                Theater: aTheater,
+            };
+        }
+        console.log(data);
+        $.ajax({
+            url: "@Url.Action("PostInsert", "Home")",
+            type: "POST",
+            data: data,
+            success: function (data) {
+                if (data.status != "success") {
+                    $('#txte').text(data.message);
+                    $('#myError').modal();
+                } else {
+                    $('#ex1').modal('hide');
+                    table.ajax.reload();
+                    $('#mySuccess').modal();
+                }
+            }, error: function (response) {;
+                $('#txte').text("กรุณาติดต่อ MIS");
+                $('#myError').modal();
+            }
+        });
+
+    }
+
+    $('#ed1').on('show.bs.modal', function (event) {
+        var atag = $(event.relatedTarget);
+        var id = atag.data('id');
+        $('#id_').val(id);
+    });
+    function btnDe() {
+        var id = $('#id_').val();
+       //delete
+        @*$.ajax({
+            url: "@Url.Action("PostDelete", "Home")",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                $('#ed1').modal('hide');
+               // listps();
+             table.ajax.reload();
+            }, error: function (response) {
+                alert("error!");
+            }
+        });*@
+        //update status
+        $.ajax({
+            url: "@Url.Action("PostUpdate", "Home")",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data.status != "success") {
+                    $('#txte').text("ลบไม่ได้");
+                    $('#myError').modal();
+                } else {
+                    $('#ed1').modal('hide');
+                   // listps();
+                    table.ajax.reload();
+                }
+            }, error: function (response) {
+                $('#txte').text("กรุณาติดต่อ MIS");
+                $('#myError').modal();
+            }
+        });
+    }
+ //   ff1();
+    function ff1() {
+        $.ajax({
+            url: "@Url.Action("GetMethod1","Home")",
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+</script>
+

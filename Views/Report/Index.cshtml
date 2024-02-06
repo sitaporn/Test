@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/vendor/jquery-3.2.1.min.js"></script>
+<h2>Index</h2>
+<table>
+    <thead>
+        <tr>
+            <th width="20%"><button class="btn btn-secondary" onclick="openpdf()">
+    Open PDF
+</button></th>
+            <th width="80%"><iframe id="report" src="" allowtransparency="true" frameborder="0" width="800" height="500" scrolling="auto" style="border: 0;"></iframe></th>
+        </tr>
+    </thead>
+</table>
+
+
+
+<script src="~/Scripts/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+ //   openpdf();
+    function openpdf() {
+      $.ajax({
+            url: '@Url.Action("GetMethod", "Report")',
+            type: "GET",
+          success: function (data) {
+              console.log(data);
+                 let pdfWindow = window.open("");
+            pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64," + data + "'></iframe>");
+
+            }
+        });
+    } oo();
+    function oo() {
+        $.ajax({
+            url:'@Url.Action("GetMethod", "Report")',
+            type: "GET",
+            success: function (data) {
+                var srctxt = "data:application/pdf;base64," + data;
+                $('#report').attr('src', srctxt);
+            }
+        });
+    }
+
+</script>
